@@ -1,3 +1,4 @@
+import Pagination from "@/components/Pagination";
 import Sidebar from "@/components/Sidebar";
 import { getCurrentUser } from "@/lib/auth";
 import prisma from "@/lib/prisma";
@@ -6,17 +7,32 @@ import { deleteProduct } from "@/lib/products";
 export default async function Inventory({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; page?: string }>;
 }) {
   const user = await getCurrentUser();
   const userId = user.id;
 
   const params = await searchParams;
   const q = (params.q ?? "").trim();
+  const page = Math.max(1, Number(params.page ?? 1));
+  const pageSize = 5;
 
-  const totalProducts = await prisma.product.findMany({
-    where: { userId, name: { contains: q, mode: "insensitive" } },
-  });
+  const where = {
+    userId,
+    ...(q ? { name: { contains: q, mode: "insensitive" as const } } : {}),
+  };
+
+  const [totalCount, items] = await Promise.all([
+    prisma.product.count({ where }),
+    prisma.product.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    }),
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -77,7 +93,7 @@ export default async function Inventory({
               </thead>
 
               <tbody className="bg-white divide-y divide-gray-200">
-                {totalProducts.map((product, key) => (
+                {items.map((product, key) => (
                   <tr key={key} className="hover:bg-gray-50">
                     <td className="px-6 py-4 text-sm text-gray-500">
                       {product.name}
@@ -112,6 +128,19 @@ export default async function Inventory({
               </tbody>
             </table>
           </div>
+          {totalPages > 1 && (
+            <div className="bg-white border border-gray-200 p-6 rounded-lg">
+              <Pagination
+                currentPage={page}
+                totalPages={totalPages}
+                baseUrl="/inventory"
+                searchParams={{
+                  q,
+                  pageSize: String(pageSize),
+                }}
+              />
+            </div>
+          )}
         </div>
       </main>
     </div>
