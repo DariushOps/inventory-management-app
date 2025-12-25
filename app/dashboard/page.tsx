@@ -1,4 +1,4 @@
-import ProductsChart from "@/components/ProductaChart";
+import ProductsChart from "@/components/ProductsChart";
 import Sidebar from "@/components/Sidebar";
 import { getCurrentUser } from "@/lib/auth";
 import prisma from "@/lib/prisma";
@@ -23,6 +23,19 @@ export default async function DashboardPage() {
     (sum, product) => sum + Number(product.price) * Number(product.quantity),
     0
   );
+
+  const inStockCount = allProducts.filter((p) => p.quantity > 5).length;
+  const lowStockCount = allProducts.filter(
+    (p) => p.quantity <= 5 && p.quantity >= 1
+  ).length;
+  const outStockCount = allProducts.filter((p) => p.quantity === 0).length;
+
+  const inStockPercentage =
+    totalProducts > 0 ? Math.round((inStockCount / totalProducts) * 100) : 0;
+  const lowStockPercentage =
+    totalProducts > 0 ? Math.round((lowStockCount / totalProducts) * 100) : 0;
+  const outStockPercentage =
+    totalProducts > 0 ? Math.round((outStockCount / totalProducts) * 100) : 0;
 
   const now = new Date();
   const weeklyProductsData = [];
@@ -171,6 +184,54 @@ export default async function DashboardPage() {
                   </div>
                 );
               })}
+            </div>
+          </div>
+          {/* efficiency */}
+          <div className="bg-white rounded-lg border border-gray-200 p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Efficiency
+              </h2>
+            </div>
+            <div className="flex items-center justify-center">
+              <div className="relative w-48 h-48">
+                <div className="absolute inset-0 rounded-full border-8 border-gray-200"></div>
+                <div
+                  className="absolute inset-0 rounded-full border-8 border-blue-900"
+                  style={{
+                    clipPath:
+                      "polygon(50% 50%, 50% 0%, 100% 0%, 100% 100%, 0% 100%, 0% 50%)",
+                  }}
+                />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-gray-900">
+                      {inStockPercentage}%
+                    </div>
+                    <div className="text-sm text-gray-600">In Stock</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-6 space-y-2">
+              <div className="flex items-center justify-between text-sm text-gray-600">
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 rounded-full bg-purple-200" />
+                  <span>In Stock ({inStockPercentage}%)</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between text-sm text-gray-600">
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 rounded-full bg-blue-800" />
+                  <span>Low Stock ({lowStockPercentage}%)</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between text-sm text-gray-600">
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 rounded-full bg-gray-200" />
+                  <span>Out of Stock ({outStockPercentage}%)</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

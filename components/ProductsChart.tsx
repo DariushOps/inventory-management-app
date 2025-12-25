@@ -42,12 +42,12 @@ export default function ProductsChart({ data }: { data: ChartData[] }) {
           <Area
             type="monotone"
             dataKey="products"
-            stroke="#8b5cf6"
-            fill="#8b5cf6"
+            stroke="#00008b"
+            fill="#00008b"
             fillOpacity={0.2}
             strokeWidth={2}
-            dot={{ fill: "#8b5cf6", r: 2 }}
-            activeDot={{ fill: "#8b5cf6", r: 4 }}
+            dot={{ fill: "#00008b", r: 2 }}
+            activeDot={{ fill: "#00008b", r: 4 }}
           />
           <Tooltip
             contentStyle={{
