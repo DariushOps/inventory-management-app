@@ -16,13 +16,13 @@ export default async function Home() {
           <div className="flex gap-4 justify-center">
             <Link
               href="/sign-in"
-              className="bg-purple-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+              className="bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-500 hover:bg-blue-800 "
             >
               Sign In
             </Link>
             <Link
               href="#"
-              className="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold border-2 border-purple-600 hover:bg-purple-50 transition-colors"
+              className="bg-white text-blue-700 px-8 py-3 rounded-lg font-semibold border-2 border-blue-700 hover:bg-purple-50 transition-colors"
             >
               Learn More
             </Link>
