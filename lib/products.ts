@@ -4,6 +4,7 @@ import { getCurrentUser } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { Prisma } from "@prisma/client";
 
 const ProductSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -15,15 +16,31 @@ const ProductSchema = z.object({
 
 export async function deleteProduct(formData: FormData) {
   const user = await getCurrentUser();
+
+  if (!user) {
+    throw new Error("Unauthorized");
+  }
+
   const id = String(formData.get("id") || "");
 
+  if (!id) {
+    throw new Error("Product id is required");
+  }
+
   await prisma.product.deleteMany({
-    where: { id: id, userId: user.id },
+    where: {
+      id,
+      userId: user.id,
+    },
   });
 }
 
 export async function createProduct(formData: FormData) {
   const user = await getCurrentUser();
+
+  if (!user) {
+    throw new Error("Unauthorized");
+  }
 
   const parsed = ProductSchema.safeParse({
     name: formData.get("name"),
@@ -34,15 +51,25 @@ export async function createProduct(formData: FormData) {
   });
 
   if (!parsed.success) {
+    console.error("VALIDATION ERROR:", parsed.error);
     throw new Error("Validation failed");
   }
 
   try {
     await prisma.product.create({
-      data: { ...parsed.data, userId: user.id },
+      data: {
+        name: parsed.data.name,
+        quantity: parsed.data.quantity,
+        sku: parsed.data.sku,
+        lowStockAt: parsed.data.lowStockAt,
+        price: new Prisma.Decimal(parsed.data.price),
+        userId: user.id,
+      },
     });
+
     redirect("/inventory");
   } catch (error) {
-    throw new Error("Failed to create product.");
+    console.error("CREATE PRODUCT ERROR:", error);
+    throw error;
   }
 }
