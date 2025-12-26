@@ -1,4 +1,3 @@
-import { getCurrentUser } from "@/lib/auth";
 import Link from "next/link";
 
 export default async function Home() {
