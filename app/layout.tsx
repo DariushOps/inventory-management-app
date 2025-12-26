@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Inventory App",
-  description: "Managing app for Inventory",
+  title: "Inventory Management App",
+  description: "Managing app for your inventory",
 };
 
 export default function RootLayout({
