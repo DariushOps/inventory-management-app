@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Inventory Management App
 
-## Getting Started
+A modern inventory management application built with Next.js 16, React 19, and Prisma, designed to streamline inventory tracking, monitor stock levels, and provide valuable insights into product performance.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **User Authentication**: Users can sign in and access their personalized dashboard.
+- **Product Management**: Add, edit, and manage products in the inventory.
+- **Stock Monitoring**: Keep track of in-stock, low-stock, and out-of-stock products.
+- **Analytics**: View key metrics, including total products, total price, and stock levels.
+- **Charts**: Visual representation of product growth over time with weekly data.
+- **Responsive UI**: Fully responsive and optimized for all device types.
+- **Admin Dashboard**: Access to various inventory management features with intuitive navigation.
+
+## Tech Stack
+
+- **Frontend**: React 19, Next.js 16, Tailwind CSS, Recharts, Lucide Icons
+- **Backend**: Node.js, Prisma (for database management)
+- **Database**: PostgreSQL
+- **Authentication**: StackFrame for user authentication
+- **State Management**: Prisma for database interactions
+
+## Installation
+
+### Prerequisites
+
+- Node.js (>=16)
+- PostgreSQL database
+- Prisma CLI
+
+### Steps to Install
+
+```npx create-next-app
+   npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Home Page: Users can sign in or learn more about the inventory management system.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Sign In: Users can log in with their credentials to access the dashboard.
 
-## Learn More
+- Dashboard: The user dashboard shows key metrics such as total products, total price, and stock levels. It also includes a chart displaying the growth of products over time.
 
-To learn more about Next.js, take a look at the following resources:
+- Add Product: Users can add new products to their inventory with details like name, price, quantity, SKU, and low stock threshold.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Inventory: View all products in the inventory with their stock levels and details.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Settings: Modify user settings and preferences.
