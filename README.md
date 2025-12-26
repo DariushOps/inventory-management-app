@@ -24,13 +24,14 @@ A modern inventory management application built with Next.js 16, React 19, and P
 
 ### Prerequisites
 
-- Node.js (>=16)
 - PostgreSQL database
 - Prisma CLI
 
 ### Steps to Install
 
-```npx create-next-app
+```
+   npx create-next-app
+
    npm run dev
 ```
 
